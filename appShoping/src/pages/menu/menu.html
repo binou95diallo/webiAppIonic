@@ -1,0 +1,43 @@
+<ion-menu [content]="myContent">
+    <ion-header>
+      <ion-navbar>
+        <ion-title>menu</ion-title>
+      </ion-navbar>
+    </ion-header>
+
+    <ion-content fullscreen>
+      <ion-list>
+        <ion-item-divider color="primary">
+          categories
+        </ion-item-divider>
+        <button menu-close ion-item *ngFor="let category of categories">
+            <h2>{{category.title}}</h2>
+            <p>{{category.description}}</p>
+            <ion-icon item-left [name]="category.icon"></ion-icon>
+        </button>
+        <ion-item-divider color="primary">
+            Mon compte
+          </ion-item-divider>
+          <button menu-close ion-item>
+              <h2>Shopping App</h2>
+              <p>Bienvenue</p>
+              <ion-icon item-left name="contact"></ion-icon>
+          </button>
+          <button menu-close ion-item>
+              <h2>Boite de réception</h2>
+              <p>COnsultez vos messages</p>
+              <ion-icon item-left name="mail"></ion-icon>
+          </button>
+          <button menu-close ion-item>
+              <h2>Mon panier</h2>
+              <p>Consulter votre panier</p>
+              <ion-icon item-left name="cart"></ion-icon>
+          </button>
+          <button menu-close ion-item>
+              <h2>A propos</h2>
+              <ion-icon item-left name="help-circle"></ion-icon>
+          </button>
+      </ion-list>
+    </ion-content>
+</ion-menu>
+<ion-nav id="nav" #myContent [root]="rootPage"></ion-nav>

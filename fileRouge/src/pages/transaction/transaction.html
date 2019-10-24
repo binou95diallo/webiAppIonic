@@ -1,0 +1,131 @@
+<ion-header>
+  <ion-navbar>
+      <ion-toolbar color="primary">
+          <button ion-button menuToggle>
+              <ion-icon name="menu"></ion-icon>
+         </button>
+          <ion-title>transaction</ion-title>
+      </ion-toolbar>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <button ion-button type="submit" block (click)="envoie()" *ngIf="type==null">Envoie</button>
+    <button ion-button type="submit" block (click)="retrait()" *ngIf="type==null">Retrait</button>
+    <span *ngIf="type=='envoie'">
+        <form (ngSubmit)="envoiTransact()" *ngIf="reussie==null">
+            <ion-item-divider color="dark">
+                Infos Expéditeur
+              </ion-item-divider>
+          <ion-item>
+            <ion-label>Nom Complet</ion-label>
+            <ion-input type="text" [(ngModel)]="expediteur.nomComplet" name="nomComplet"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Adresse</ion-label>
+            <ion-input [(ngModel)]="expediteur.adresse" name="adresse"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Telephone</ion-label>
+            <ion-input [(ngModel)]="expediteur.telephone" name="telephone"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label>Type Piéce</ion-label>
+              <ion-select [(ngModel)]="expediteur.typePiece" name="typePiece"> 
+                <ion-option value="cni">Carte d'identité</ion-option>
+                <ion-option value="passport">Passport</ion-option>
+              </ion-select>
+            </ion-item>
+          <ion-item>
+            <ion-label>Numéro piéce</ion-label>
+            <ion-input [(ngModel)]="expediteur.numeroPiece" name="numeroPiece"></ion-input>
+          </ion-item>
+          <ion-item-divider color="dark">
+              Infos Bénéficiaire
+            </ion-item-divider>
+          <ion-item>
+            <ion-label>Nom Complet</ion-label>
+            <ion-input type="text" [(ngModel)]="recepteur.nomComplet" name="nomCompletR"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Adresse</ion-label>
+            <ion-input [(ngModel)]="recepteur.adresse" name="adresseR"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Telephone</ion-label>
+            <ion-input [(ngModel)]="recepteur.telephone" name="telephoneR"></ion-input>
+          </ion-item>
+          <ion-item>
+              <ion-label>Montant</ion-label>
+              <ion-input [(ngModel)]="recepteur.montant" name="montant"></ion-input>
+            </ion-item>
+        <!--   <ion-item>
+            <ion-label>Numéro piéce</ion-label>
+            <ion-input [(ngModel)]="recepteur.numeroPieceR" name="numeroPieceR"></ion-input>
+          </ion-item> -->
+          <button ion-button type="submit" block>Envoyer</button>
+        </form>
+    </span>
+    <span *ngIf="type=='retrait' && reussie==null">
+      <span *ngIf="verif==null">
+        <ion-item> 
+            <ion-input [(ngModel)]="codeEnter" name="code"  placeholder="code" type="number" required></ion-input>
+            <!-- <mat-error *ngIf="code.invalid">{{getErrorMessage()}}</mat-error> -->
+        </ion-item>
+        <button ion-button type="submit" block (click)="recupBeneficiaire(codeEnter)">Verifier</button>
+      </span>
+      <span *ngIf="isVerif()"> 
+          <span *ngIf="verif=='oui'">
+              <ion-item-divider color="dark">
+                Infos Bénéficiaire
+              </ion-item-divider>
+                    <ion-item>
+                      <ion-input [(ngModel)]="beneficiaire.nomCompletR" name="nomCompletR" placeholder="Nom et Prénom" type="text" disabled></ion-input>
+                      
+                      </ion-item>
+                
+                    <ion-item>
+                      <ion-input [(ngModel)]="beneficiaire.adresseR" name="adresseR" placeholder="Adresse" type="text" disabled></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-input [(ngModel)]="beneficiaire.telephoneR" name="telephoneR" placeholder="Téléphone" type="number" disabled></ion-input>
+                      </ion-item>
+                      <ion-item>
+                          <ion-label>Type Piéce</ion-label>
+                          <ion-select [(ngModel)]="beneficiaire.typePieceR" name="typePieceR"> 
+                            <ion-option value="cni">Carte d'identité</ion-option>
+                            <ion-option value="passport">Passport</ion-option>
+                          </ion-select>
+                        </ion-item>
+                      <ion-item>
+                          <ion-input  [(ngModel)]="beneficiaire.numeroPieceR" name="ncniR" placeholder="Saisir le numéro de la pièce" type="text"></ion-input>            
+                      </ion-item>
+                <button ion-button color="accent" (click)="retraitTransact(codeEnter,beneficiaire)">Confirmer</button>
+      </span>
+    </span>   
+    </span>
+  <div class="py-5 mt-5" *ngIf="reussie=='oui'">
+      <fieldset>
+        <legend>Expéditeur</legend>
+            <p>Nom et Prénom: {{transaction.expediteur.nomComplet}}</p>
+            <p>Adresse: {{transaction.expediteur.adresse}}</p>
+            <p>Telephone: {{transaction.expediteur.telephone}}</p>
+            <p>NumeroPiece: {{transaction.expediteur.numeroPiece}}</p>
+      </fieldset>
+      <fieldset>
+        <legend>Bénéficiaire</legend>
+            <p>Nom et Prénom: {{transaction.recepteur.nomCompletR}}</p>
+            <p>Adresse: {{transaction.recepteur.adresseR}}</p>
+            <p>Telephone: {{transaction.recepteur.telephoneR}}</p>
+            <p>NumeroPiece: {{transaction.recepteur.numeroPieceR}}</p>
+      </fieldset>
+      <fieldset>
+        <legend>Transaction</legend>
+            <p>Montant: {{transaction.montant}}</p>
+            <p>Code:    {{transaction.code}}</p>
+            <p>Frais:   {{transaction.frais}}</p>
+            <p>Caissier:  {{transaction.user.username}}</p>
+      </fieldset>
+      <button mat-raised-button color="accent" (click)="imprimerRecu()">Imprimer</button>
+    </div>
+</ion-content>

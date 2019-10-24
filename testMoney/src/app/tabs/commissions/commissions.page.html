@@ -1,0 +1,53 @@
+<!-- <ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+    <ion-title>commissions</ion-title>
+  </ion-toolbar>
+</ion-header> -->
+<ion-content>
+    <ion-card>
+        <ion-card-content>
+          <ion-item>
+            <ion-label>
+              Total commissions
+            </ion-label>
+            <ion-label>
+                {{commissions}}
+            </ion-label>
+          </ion-item>
+        </ion-card-content>
+      </ion-card>
+      <ion-list *ngFor="let t of listTransactions">
+          <ion-card>
+            <ion-card-content>
+              <ion-item>
+                  <ion-label>Date</ion-label>
+                  <ion-label>{{t.date_transaction}}</ion-label>
+                </ion-item>
+              
+              <ion-item>
+                  <ion-label>Montant</ion-label>
+                  <ion-label>{{t.montant}}</ion-label>
+                </ion-item>
+              <ion-item>
+                  <ion-label>Commission</ion-label>
+                  <ion-label>{{t.commission_partenaire}}</ion-label>
+                </ion-item>
+              <ion-item>
+                  <ion-label>Type</ion-label>
+                  <ion-label>{{t.type}}</ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label>Voir plus</ion-label>
+                  <ion-label><ion-icon name="eye" (click)="showDetails(t)"></ion-icon></ion-label>
+                </ion-item>
+            </ion-card-content>
+          </ion-card>
+        </ion-list>
+</ion-content>
+
+<ion-footer>
+    <app-tabs></app-tabs>
+</ion-footer>

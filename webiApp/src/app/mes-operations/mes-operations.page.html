@@ -1,0 +1,174 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>mesOperations</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <form (ngSubmit)="filtre()">
+        <ion-item>
+          <ion-input type="date" [(ngModel)]="dateDebut" name="dateDebut" placeholder="Debut"></ion-input>
+          <ion-input type="date" [(ngModel)]="dateFin" name="dateFin"></ion-input>
+        </ion-item>
+        <button ion-button type="submit" block slot="center">Filtrer</button>
+     </form>
+
+     <ion-toolbar>
+        <ion-segment (ionChange)="show($event)" color="primary">
+          <ion-segment-button value="operations">
+            <ion-icon name="list"></ion-icon>
+          </ion-segment-button>
+          <ion-segment-button value="commission">
+            <ion-icon name="cash"></ion-icon>
+          </ion-segment-button>
+        </ion-segment>
+      </ion-toolbar>
+
+      <span *ngIf="choice=='operations'">
+          <ion-list *ngFor="let t of listTransactions">
+              <ion-card>
+                <ion-card-content>
+                  <ion-item>
+                      <ion-label>Date</ion-label>
+                    </ion-item>
+                  <ion-item>
+                    <ion-label>{{t.date_transaction}}</ion-label>
+                  </ion-item>
+                  <ion-item>
+                      <ion-label>Montant</ion-label>
+                    </ion-item>
+                  <ion-item>
+                    <ion-label>{{t.montant}}</ion-label>
+                  </ion-item>
+                  <ion-item>
+                      <ion-label>Type</ion-label>
+                    </ion-item>
+                  <ion-item>
+                    <ion-label>{{t.type}}</ion-label>
+                  </ion-item>
+                </ion-card-content>
+              </ion-card>
+            </ion-list>
+      </span>
+      <span *ngIf="choice=='commission'">
+          <span *ngIf="detailShow==null">
+              <ion-card>
+                  <ion-card-content>
+                    <ion-item>
+                      <ion-label>
+                        Total commissions
+                      </ion-label>
+                      <ion-label>
+                          {{commissions}}
+                      </ion-label>
+                    </ion-item>
+                  </ion-card-content>
+                </ion-card>
+                <ion-list *ngFor="let t of listTransactions">
+                    <ion-card>
+                      <ion-card-content>
+                        <ion-item>
+                            <ion-label>Date</ion-label>
+                            <ion-label>{{t.date_transaction}}</ion-label>
+                          </ion-item>
+                        
+                        <ion-item>
+                            <ion-label>Montant</ion-label>
+                            <ion-label>{{t.montant}}</ion-label>
+                          </ion-item>
+                        <ion-item>
+                            <ion-label>Commission</ion-label>
+                            <ion-label>{{t.commission_partenaire}}</ion-label>
+                          </ion-item>
+                        <ion-item>
+                            <ion-label>Type</ion-label>
+                            <ion-label>{{t.type}}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Voir plus</ion-label>
+                            <ion-label><ion-icon name="eye" (click)="showDetails(t)"></ion-icon></ion-label>
+                          </ion-item>
+                      </ion-card-content>
+                    </ion-card>
+                  </ion-list>
+          </span>
+
+            <span *ngIf="detailShow=='oui'">
+                <ion-list *ngFor="let d of details">
+                   <!--  <ion-card>
+                      <ion-card-title>Infos Transaction</ion-card-title>
+                      <ion-card-content>
+                        <ion-item>
+                            <ion-label>Date</ion-label>
+                            <ion-label>{{d.dateTransaction}}</ion-label>
+                          </ion-item>
+                        
+                        <ion-item>
+                            <ion-label>Montant</ion-label>
+                            <ion-label>{{d.montant}}</ion-label>
+                          </ion-item>
+                        <ion-item>
+                            <ion-label>Commission</ion-label>
+                            <ion-label>{{d.commissionPartenaire}}</ion-label>
+                          </ion-item>
+                        <ion-item>
+                            <ion-label>Type</ion-label>
+                            <ion-label>{{d.type}}</ion-label>
+                          </ion-item>
+                      </ion-card-content>
+                    </ion-card> -->
+                    <ion-card>
+                        <ion-card-title class="title">Utilisateur</ion-card-title>
+                        <ion-card-content>
+                            <ion-item>
+                                <ion-label>Nom Complet</ion-label>
+                                <ion-label>{{d.user.nomComplet}}</ion-label>
+                            </ion-item>
+                            <ion-item>
+                              <ion-label>Adresse</ion-label>
+                              <ion-label>{{d.user.adresse}}</ion-label>
+                            </ion-item>
+                            <ion-item>
+                              <ion-label>Telephone</ion-label>
+                              <ion-label>{{d.user.telephone}}</ion-label>
+                            </ion-item>
+                        </ion-card-content>
+                      </ion-card>
+                    <ion-card>
+                      <ion-card-title class="title">Expéditeur</ion-card-title>
+                      <ion-card-content>
+                          <ion-item>
+                              <ion-label>Nom Complet</ion-label>
+                              <ion-label>{{d.expediteur.nomComplet}}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Adresse</ion-label>
+                            <ion-label>{{d.expediteur.adresse}}</ion-label>
+                          </ion-item>
+                          <ion-item>
+                            <ion-label>Telephone</ion-label>
+                            <ion-label>{{d.expediteur.telephone}}</ion-label>
+                          </ion-item>
+                      </ion-card-content>
+                    </ion-card>
+                    <ion-card>
+                        <ion-card-title class="title">Bénéficiaire</ion-card-title>
+                        <ion-card-content>
+                            <ion-item>
+                                <ion-label>Nom Complet</ion-label>
+                                <ion-label>{{d.recepteur.nomCompletR}}</ion-label>
+                            </ion-item>
+                            <ion-item>
+                              <ion-label>Adresse</ion-label>
+                              <ion-label>{{d.recepteur.adresseR}}</ion-label>
+                            </ion-item>
+                            <ion-item>
+                              <ion-label>Telephone</ion-label>
+                              <ion-label>{{d.recepteur.telephoneR}}</ion-label>
+                            </ion-item>
+                        </ion-card-content>
+                      </ion-card>
+                  </ion-list>
+            </span>
+      </span>
+</ion-content>

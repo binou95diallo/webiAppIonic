@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-navbar color="primary">
+           <button ion-button menuToggle>
+               <ion-icon name="menu"></ion-icon>
+          </button>
+    <ion-title>
+      WebiMoney
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+   <ion-list>
+     <button (click)="showDetails(article)" ion-item *ngFor="let article of Articles" (click)="showDetails(article)">
+      <ion-thumbnail item-start>
+        <img [src]="article.pictures[0]">
+      </ion-thumbnail>
+      <h2>{{article.title}}</h2>
+      <p>{{article.description}}</p>
+      <p>{{article.price | currency}}</p>
+      <p>
+        <span *ngIf="article.averageStar>=1">
+          <ion-icon name="star" class="iconYellow"></ion-icon>
+        </span>
+        <span *ngIf="article.averageStar>=2">
+            <ion-icon name="star" class="iconYellow"></ion-icon>
+        </span>
+        <span *ngIf="article.averageStar>=3">
+            <ion-icon name="star" class="iconYellow"></ion-icon>
+          </span>
+          <span *ngIf="article.averageStar>=4">
+              <ion-icon name="star" class="iconYellow"></ion-icon>
+            </span>
+            <span *ngIf="article.averageStar>=5">
+                <ion-icon name="star" class="iconYellow"></ion-icon>
+              </span>
+    </p>
+    </button>
+   </ion-list>
+    <!--<button ion-button (click)="showDetails()">Details Page</button>-->
+</ion-content>
+<ion-footer class="monFooter">
+  <ion-row>
+    <ion-col offset-1 col-10>
+      <button ion-button round large>
+        <ion-icon name="camera"></ion-icon>&nbsp;
+          Vendre vos biens
+      </button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

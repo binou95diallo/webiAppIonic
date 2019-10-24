@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-    <button ion-button type="submit" block (click)="envoie()" *ngIf="type==null" color="light">Envoie</button>
+    <button ion-button type="submit" block (click)="envoie()" *ngIf="type==null" color="danger">Envoie</button>
     <button ion-button type="submit" block (click)="retrait()" *ngIf="type==null">Retrait</button>
     <span *ngIf="type=='envoie'">
         <form (ngSubmit)="envoiTransact()" *ngIf="reussie==null">

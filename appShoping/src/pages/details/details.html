@@ -1,0 +1,100 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{productDetails.title}}</ion-title>
+    <ion-buttons end>
+      <button ion-button><ion-icon name="share"></ion-icon></button>
+      <button ion-button><ion-icon name="cart"></ion-icon></button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content  fullscreen>
+  <ion-card>
+      <ion-slides pager autoplay="1500" loop="true">
+          <ion-slide *ngFor="let picture of productDetails.pictures">
+            <img [src]="picture" alt="" class="picture">
+          </ion-slide>
+        </ion-slides>
+        <ion-card-content>
+          <ion-card-title>
+            <ion-chip color="primary">
+              <ion-label>
+                {{productDetails.category}}
+              </ion-label>
+          </ion-chip>
+          <ion-chip color="secondary" *ngIf="productDetails.availability.available">
+              <ion-label>
+                Disponible
+              </ion-label>
+          </ion-chip>
+          <ion-chip color="secondary" *ngIf="!productDetails.availability.available" color="danger">
+              <ion-label>
+                Non disponible
+              </ion-label>
+          </ion-chip>
+          <ion-chip>
+              <ion-label>
+                {{productDetails.availability.type}}
+              </ion-label>
+          </ion-chip>
+          <ion-chip>
+              <ion-label>
+                {{productDetails.state}}
+              </ion-label>
+          </ion-chip>
+          <ion-chip color="primary">
+              <ion-label>
+                {{productDetails.city}}
+              </ion-label>
+          </ion-chip>
+          </ion-card-title>
+          <p>Prix: {{productDetails.price | currency}}</p>
+          <p>
+            <span *ngIf="productDetails.averageStar>=1">
+              <ion-icon name="star" class="iconYellow"></ion-icon>
+            </span>
+            <span *ngIf="productDetails.averageStar>=2">
+                <ion-icon name="star" class="iconYellow"></ion-icon>
+            </span>
+            <span *ngIf="productDetails.averageStar>=3">
+                <ion-icon name="star" class="iconYellow"></ion-icon>
+              </span>
+              <span *ngIf="productDetails.averageStar>=4">
+                  <ion-icon name="star" class="iconYellow"></ion-icon>
+                </span>
+                <span *ngIf="productDetails.averageStar>=5">
+                    <ion-icon name="star" class="iconYellow"></ion-icon>
+                  </span>
+            </p>
+            <p>{{productDetails.description}}</p>
+            <ion-grid padding>
+              <ion-row>
+                <ion-col col-0>
+                    <ionic3-star-rating #rating
+                      activeIcon = "ios-star"
+                      defaultIcon = "ios-star-outline"
+                      activeColor = "#f4e242" 
+                      defaultColor = "#f4f4f4"
+                      readonly="false"
+                      [rating]="3"
+                    >
+                  </ionic3-star-rating>
+                </ion-col>
+                <ion-col col-2>
+                  <button ion-button padding small round color="secondary">Noter</button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+        </ion-card-content>
+  </ion-card>
+</ion-content>
+<!-- <ion-footer class="monFooter">
+    <ion-row>
+      <ion-col offset-1 col-10>
+        <button ion-button round large>
+          <ion-icon name="cart"></ion-icon>&nbsp;
+            Ajouter au panier
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-footer> -->

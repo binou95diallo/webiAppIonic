@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      WebiMoney
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <p> Hello evry power girl</p>
+   <ion-list>
+     <button ion-item *ngFor="let article of Articles" (click)="showDetails(article)">
+          {{article.nom}} - {{article.prix}}
+     </button> 
+   </ion-list>
+    <!--<button ion-button (click)="showDetails()">Details Page</button>-->
+   <button ion-button (click)="showBasicAlert()">
+      alertClassique
+   </button>
+   <button ion-button (click)="showIonicALert()">
+    alertIonic
+   </button>
+   <button ion-button (click)="showAction()">
+      showAction
+     </button>
+  </ion-content>
+<ion-footer class="monFooter">
+  <p>Je suis le pied de page</p>
+</ion-footer>

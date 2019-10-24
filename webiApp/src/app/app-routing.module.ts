@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { TabsPage } from './tabs/tabs.page';
 
 const routes: Routes = [
   {
@@ -25,14 +26,12 @@ const routes: Routes = [
     loadChildren: () => import('./transaction/transaction.module').then(m => m.TransactionPageModule)
   },
   { path: 'tabs',
-    loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
+  loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
-  { path: 'tabs/listTransaction', 
-    loadChildren: () => import('./list-transaction/list-transaction.module').then(m => m.ListTransactionPageModule) 
+  { path: 'tab1', loadChildren: './tab1/tab1.module#Tab1PageModule' 
+
 },
-  { path: 'tabs/commissions', 
-    loadChildren: () => import('./commissions/commissions.module').then(m => m.CommissionsPageModule) 
-  }
+  { path: 'mes-operations', loadChildren: './mes-operations/mes-operations.module#MesOperationsPageModule' }
 ];
 
 @NgModule({

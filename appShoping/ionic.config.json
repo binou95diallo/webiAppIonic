@@ -1,0 +1,7 @@
+{
+  "name": "fileRouge",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

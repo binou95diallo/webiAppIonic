@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ListTransactionPage } from '../list-transaction/list-transaction.page';
-import { CommissionsPage } from '../commissions/commissions.page';
 import { DataService } from '../service/data.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
