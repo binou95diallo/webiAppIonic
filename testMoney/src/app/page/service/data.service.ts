@@ -6,7 +6,8 @@ import {AuthService} from './auth.service';
 import { Partenaire } from '../model/partenaire';
 import { User } from '../model/users';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable} from 'rxjs';
+import { catchError } from 'rxjs/operators';
 @Injectable()
 export class DataService {
 
@@ -223,23 +224,33 @@ export class DataService {
     formData.append('code',code);
     formData.append('typePieceR',beneficiaire.typePieceR);
     formData.append('ncniR',beneficiaire.numeroPieceR);
-    return this.http.post(this.uri+'/transaction/retrait',formData,this.headers);
+    return this.http.post(this.uri+'/transaction/retrait',formData,this.headers).pipe(catchError(this.handelError));;
   }
 
-  envoiTransact(expediteur,beneficiaire):Observable<any> {
+  envoiTransact(transactionData):Observable<any> {
     const formData=new FormData();
-    formData.append('nomComplet',expediteur.nomComplet);
-    formData.append('adresse',expediteur.adresse);
-    formData.append('telephone',expediteur.telephone);
-    formData.append('numeroPiece',expediteur.numeroPiece);
-    formData.append('typePiece',expediteur.typePiece);
-    formData.append('nomCompletR',beneficiaire.nomComplet);
-    formData.append('adresseR',beneficiaire.adresse);
-    formData.append('telephoneR',beneficiaire.telephone);
-    formData.append('montant',beneficiaire.montant);
-
-    return this.http.post(this.uri+'/transaction/envoie',formData,this.headers);
+    formData.append('nomComplet',transactionData.nomComplet);
+    formData.append('adresse',transactionData.adresse);
+    formData.append('telephone',transactionData.telephone);
+    formData.append('numeroPiece',transactionData.numeroPiece);
+    formData.append('typePiece',transactionData.typePiece);
+    formData.append('nomCompletR',transactionData.nomCompletR);
+    formData.append('adresseR',transactionData.adresseR);
+    formData.append('telephoneR',transactionData.telephoneR);
+    formData.append('montant',transactionData.montant);
+    formData.append('frais',transactionData.frais);
+    console.log(transactionData.frais);
+    return this.http.post(this.uri+'/transaction/envoie',formData,this.headers).pipe(catchError(this.handelError));
   }
+
+  getTarifs(montant){
+    console.log(montant)
+    const formData=new FormData();
+    formData.append("montant",montant)
+    return this.http.post<any>(this.uri+'/transaction/tarif',formData,this.headers).pipe(catchError(this.handelError))
+    //.map(res => res).catch(this.handelError);
+  }
+
 
  downloadContrat(id):Observable<Partenaire[]> {
    const formData=new FormData();

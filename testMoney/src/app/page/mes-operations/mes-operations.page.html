@@ -1,31 +1,24 @@
 <ion-header>
   <ion-toolbar color="tertiary">
+      <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
     <ion-title>mesOperations</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-   <!--  <form (ngSubmit)="filtre()">
-        <ion-item>
-          <ion-input type="date" [(ngModel)]="dateDebut" name="dateDebut" placeholder="Debut"></ion-input>
-          <ion-input type="date" [(ngModel)]="dateFin" name="dateFin"></ion-input>
-        </ion-item>
-        <button ion-button type="submit" block slot="center">Filtrer</button>
-     </form> -->
      <ion-item>
-        <ion-label>Date Début</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="dateBebut"></ion-datetime>
-      </ion-item>
-      <ion-item>
-          <ion-label>Date Fin</ion-label>
-          <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="dateFin" (ionChange)="filtre()"></ion-datetime>
-        </ion-item>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="dateDebut"></ion-datetime>
+        <ion-datetime displayFormat="YYYY-MM-DD" [(ngModel)]="dateFin"></ion-datetime>
+       <ion-button (click)="filtre()" color="tertiary">Filtrer</ion-button>
+     </ion-item>
      <ion-toolbar>
-        <ion-segment (ionChange)="show($event)" color="tertiary">
-          <ion-segment-button value="operations">
+        <ion-segment (ionChange)="show($event)" color="tertiary" fixed>
+          <ion-segment-button value="operations" item-start checked *ngIf="isPartenaireOrUser()">
             <ion-icon name="list"></ion-icon>
           </ion-segment-button>
-          <ion-segment-button value="commission">
+          <ion-segment-button value="commission" *ngIf="isPartenaire()">
             <ion-icon name="cash"></ion-icon>
           </ion-segment-button>
         </ion-segment>
@@ -93,7 +86,7 @@
                           </ion-item>
                           <ion-item>
                             <ion-label>Voir plus</ion-label>
-                            <ion-label><ion-icon name="eye" (click)="showDetails(t)"></ion-icon></ion-label>
+                            <ion-label><ion-icon name="eye" (click)="showDetails(t)" color="tertiary"></ion-icon></ion-label>
                           </ion-item>
                       </ion-card-content>
                     </ion-card>

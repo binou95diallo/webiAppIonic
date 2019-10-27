@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { LoginPage } from '../page/login/login.page';
+import { TransactionPage } from '../page/transaction/transaction.page';
 import { Platform, NavController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { AuthService } from '../page/service/auth.service';
 import { Router } from '@angular/router';
-import { LoginPage } from './page/login/login.page';
-import { TransactionPage } from './page/transaction/transaction.page';
-import { AuthService } from './page/service/auth.service';
+
 @Component({
-  selector: 'app-root',
-  templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  selector: 'app-menu',
+  templateUrl: './menu.page.html',
+  styleUrls: ['./menu.page.scss'],
 })
-export class AppComponent {
-  rootPage:any = LoginPage;
-  public appPages = [
+export class MenuPage{
+  //rootPage:any = LoginPage;
+  public pages = [
     {
       title: 'Home',
       url: '/home',
@@ -45,21 +45,11 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     public navCtrl:NavController,
-    private authenticationService:AuthService,
+    private auth:AuthService,
     private router:Router
-  ) {
-    this.initializeApp();
-    this.authenticationService.parseJWT();
-  }
+  ) {}
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
-  }
-
- /*  onActionMenu(p):void{
+  onActionMenu(p):void{
     if(p.url=="logout"){
       //this.auth.logout();
       this.router.navigateByUrl('/logout')
@@ -68,16 +58,5 @@ export class AppComponent {
       this.router.navigateByUrl('/home');
       //this.router.navigateByUrl(p.url);
     }
-} */
-isUserPart(){
-  return this.authenticationService.isUserPart();
-}
-
-isCaissier(){
-  return this.authenticationService.isCaissier();
-}
-
-isPartenaire(){
-  return this.authenticationService.isAdminPartenaire();
 }
 }

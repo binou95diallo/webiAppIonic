@@ -17,20 +17,22 @@ export class LoginPage implements OnInit {
   ngOnInit() {
   }
 
-  login(e: { preventDefault: () => void; }) {
+  login(e: { preventDefault: () => void; }){
     let numberConnect=Number(localStorage.getItem('numberConnexion'));
      this.authenticationService.login(this.username, this.password)
        .subscribe(
          data=> {
-         this.authenticationService.saveToken(data.token)
-         this.router.navigateByUrl('/home')
-       }, err => {
-         this.errorMessage=err,
-         console.log(err)
-
+           if(data.code=="ko"){
+            this.errorMessage=data
+            console.log(data)
+           }
+           else{
+            this.authenticationService.saveToken(data.token)
+            this.router.navigateByUrl('/home')
+           }
        }
-       
        );
+      // window.location.reload();
        //alert(this.errorMessage);
    }
 }

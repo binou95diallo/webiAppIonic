@@ -1,40 +1,29 @@
 <ion-header>
-  <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-    <ion-title>login</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-    <div class="container mt-5">
-        <div class="d-flex justify-content-center h-100">
-          <div class="card">
-            <div class="card-body">
-              <form (submit)="login($event)">
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                  </div>
-                  <input type="text" class="form-control" placeholder="username" name="username" required="required"  [(ngModel)]="username">
-                  
-                </div>
-                <div class="input-group form-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                  </div>
-                  <input type="password" class="form-control" placeholder="password" name="password" required="required"   [(ngModel)]="password">
-                </div>
-                <div class="form-group">
-                  <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
-                  </div>
-                <div class="form-group">
-                  <input type="submit" value="Login" class="btn float-right login_btn">
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-</ion-content>
+   <ion-toolbar>
+      <ion-title>Authentification</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+     <div class="login">
+     <!--   <ion-item>
+         <ion-button ion-only color="light" expand="round" class="login" size="large">
+            <ion-icon name="people"></ion-icon></ion-button>
+       </ion-item> -->
+       <form (submit)="login($event)">
+        <ion-item>
+            <ion-icon name="people" size="large" color="tertiary"></ion-icon>
+            <ion-input type="text" class="form-control" placeholder="username" name="username" required="required"  [(ngModel)]="username"></ion-input>
+          </ion-item>
+          <ion-item>
+                  <ion-icon name="lock" size="large" color="tertiary"></ion-icon>
+                   <ion-input type="password" class="form-control" placeholder="password" name="password" required="required"   [(ngModel)]="password"></ion-input>        
+          </ion-item>
+          <div class="form-group">
+               <div *ngIf="errorMessage" class="error">{{errorMessage.message}}</div>
+               </div>
+                   <ion-button type="submit" value="Login" expand="block" color="tertiary">Se Connecter</ion-button>
+        </form>
+     </div>
+  </ion-content>
+  

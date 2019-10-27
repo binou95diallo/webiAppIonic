@@ -14,6 +14,7 @@ import { TabsPageModule } from './tabs/tabs.module';
 import { AuthService } from './page/service/auth.service';
 import { TokenStorageService } from './page/service/token-storage.service';
 import { DataService } from './page/service/data.service';
+import { AuthGuard } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,6 +31,7 @@ import { DataService } from './page/service/data.service';
     StatusBar,
     SplashScreen,
     AuthService,
+    AuthGuard,
     TokenStorageService,
     DataService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

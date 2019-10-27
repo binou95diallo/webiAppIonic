@@ -8,56 +8,121 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-    <button ion-button expand="block" (click)="envoie()" *ngIf="type==null" color="danger" class="bouton">Envoie</button>
-    <button ion-button expand="block" (click)="retrait()" *ngIf="type==null" class="bouton">Retrait</button>
-    <!-- <span *ngIf="type=='envoie'">
-        <form (ngSubmit)="envoiTransact()" *ngIf="reussie==null">
-            <ion-item-divider color="dark">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+          <ion-button expand="block" (click)="envoie()" *ngIf="type==null" color="danger">Envoie</ion-button>
+      </ion-col>
+      <ion-col>
+          <ion-button expand="block" (click)="retrait()" *ngIf="type==null" color="primary">Retrait</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+    <span *ngIf="type=='envoie' || reussie=='echec'">
+        <form #f=ngForm [formGroup]="transactionData" (ngSubmit)="envoiTransact(transactionData.value)" *ngIf="reussie==null">
+            <ion-item-divider color="tertiary">
                 Infos Expéditeur
               </ion-item-divider>
-          <ion-item>  
+          <ion-item>
             <ion-label>Nom Complet</ion-label>
-            <ion-input type="text" [(ngModel)]="expediteur.nomComplet" name="nomComplet"></ion-input>
+            <ion-input type="text" formControlName="nomComplet" name="nomComplet"></ion-input>
           </ion-item>
+          <div id="error" *ngFor="let error of errorMessage.nomComplet">
+              <div *ngIf="transactionData.get('nomComplet').hasError(error.type) &&
+              (transactionData.get('nomComplet').dirty || transactionData.get('nomComplet').touched)">
+                  {{error.message}}
+              </div>
+          </div>
           <ion-item>
             <ion-label>Adresse</ion-label>
-            <ion-input [(ngModel)]="expediteur.adresse" name="adresse"></ion-input>
+            <ion-input formControlName="adresse" name="adresse"></ion-input>
           </ion-item>
+          <div id="error" *ngFor="let error of errorMessage.adresse">
+              <div *ngIf="transactionData.get('adresse').hasError(error.type) &&
+              (transactionData.get('adresse').dirty || transactionData.get('adresse').touched)">
+                  {{error.message}}
+              </div>
+          </div>
           <ion-item>
             <ion-label>Telephone</ion-label>
-            <ion-input [(ngModel)]="expediteur.telephone" name="telephone"></ion-input>
+            <ion-input formControlName="telephone" name="telephone"></ion-input>
           </ion-item>
+          <div id="error" *ngFor="let error of errorMessage.telephone">
+              <div *ngIf="transactionData.get('telephone').hasError(error.type) &&
+              (transactionData.get('telephone').dirty || transactionData.get('telephone').touched)">
+                  {{error.message}}
+              </div>
+          </div>
           <ion-item>
               <ion-label>Type Piéce</ion-label>
-              <ion-select [(ngModel)]="expediteur.typePiece" name="typePiece"> 
-                <ion-option value="cni">Carte d'identité</ion-option>
-                <ion-option value="passport">Passport</ion-option>
+              <ion-select formControlName="typePiece" name="typePiece"> 
+                <ion-select-option value="cni">Carte d'identité</ion-select-option>
+                <ion-select-option value="passport">Passport</ion-select-option>
               </ion-select>
             </ion-item>
           <ion-item>
             <ion-label>Numéro piéce</ion-label>
-            <ion-input [(ngModel)]="expediteur.numeroPiece" name="numeroPiece"></ion-input>
+            <ion-input formControlName="numeroPiece" name="numeroPiece"></ion-input>
           </ion-item>
-          <ion-item-divider color="dark">
+          <div id="error" *ngFor="let error of errorMessage.numeroPiece">
+              <div *ngIf="transactionData.get('numeroPiece').hasError(error.type) &&
+              (transactionData.get('numeroPiece').dirty || transactionData.get('numeroPiece').touched)">
+                  {{error.message}}
+              </div>
+          </div>
+          <ion-item-divider color="tertiary">
               Infos Bénéficiaire
             </ion-item-divider>
           <ion-item>
             <ion-label>Nom Complet</ion-label>
-            <ion-input type="text" [(ngModel)]="recepteur.nomComplet" name="nomCompletR"></ion-input>
+            <ion-input type="text" formControlName="nomCompletR" name="nomCompletR"></ion-input>
           </ion-item>
+          <div id="error" *ngFor="let error of errorMessage.nomCompletR">
+              <div *ngIf="transactionData.get('nomCompletR').hasError(error.type) &&
+              (transactionData.get('nomCompletR').dirty || transactionData.get('nomCompletR').touched)">
+                  {{error.message}}
+              </div>
+          </div>
           <ion-item>
             <ion-label>Adresse</ion-label>
-            <ion-input [(ngModel)]="recepteur.adresse" name="adresseR"></ion-input>
+            <ion-input formControlName="adresseR" name="adresseR"></ion-input>
           </ion-item>
+          <div id="error" *ngFor="let error of errorMessage.adresseR">
+              <div *ngIf="transactionData.get('adresseR').hasError(error.type) &&
+              (transactionData.get('adresseR').dirty || transactionData.get('adresseR').touched)">
+                  {{error.message}}
+              </div>
+          </div>
           <ion-item>
             <ion-label>Telephone</ion-label>
-            <ion-input [(ngModel)]="recepteur.telephone" name="telephoneR"></ion-input>
+            <ion-input formControlName="telephoneR" name="telephoneR"></ion-input>
           </ion-item>
+          <div id="error" *ngFor="let error of errorMessage.telephoneR">
+              <div *ngIf="transactionData.get('telephoneR').hasError(error.type) &&
+              (transactionData.get('telephoneR').dirty || transactionData.get('telephoneR').touched)">
+                  {{error.message}}
+              </div>
+          </div>
           <ion-item>
               <ion-label>Montant</ion-label>
-              <ion-input [(ngModel)]="recepteur.montant" name="montant"></ion-input>
+              <ion-input (keyup)="infotarif(f.value.montant)" 
+              formControlName="montant" name="montant" type="number"></ion-input>
             </ion-item>
-          <button ion-button type="submit" block>Envoyer</button>
+            <div id="error" *ngFor="let error of errorMessage.montant">
+                <div *ngIf="transactionData.get('montant').hasError(error.type) &&
+                (transactionData.get('montant').dirty || transactionData.get('montant').touched)">
+                    {{error.message}}
+                </div>
+            </div>
+            <ion-item *ngFor="let f of frais" >
+              <ion-label>Frais</ion-label>
+              <ion-input type="number" value="{{f.valeur}}" class="form-control" ></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-label>Sans Frais</ion-label>
+                <ion-toggle checked="false" color="tertiary" formControlName="frais" name="frais"></ion-toggle>
+            </ion-item>
+          <ion-button type="submit" expand="block" color="tertiary" [disabled]="!transactionData.valid">Envoyer</ion-button>
         </form>
     </span>
     <span *ngIf="type=='retrait' && reussie==null">
@@ -65,9 +130,9 @@
         <ion-item> 
             <ion-input [(ngModel)]="codeEnter" name="code"  placeholder="code" type="number" required></ion-input>
         </ion-item>
-        <button ion-button type="submit" block (click)="recupBeneficiaire(codeEnter)">Verifier</button>
+        <ion-button type="submit" expand="block" (click)="recupBeneficiaire(codeEnter)" color="tertiary">Verifier</ion-button>
       </span>
-      <span *ngIf="isVerif()"> 
+      <span *ngIf="isVerif()">
           <span *ngIf="verif=='oui'">
               <ion-item-divider color="dark">
                 Infos Bénéficiaire
@@ -91,9 +156,119 @@
                       <ion-item>
                           <ion-input  [(ngModel)]="beneficiaire.numeroPieceR" name="ncniR" placeholder="Saisir le numéro de la pièce" type="text"></ion-input>            
                       </ion-item>
-                <button ion-button color="accent" (click)="retraitTransact(codeEnter,beneficiaire)">Confirmer</button>
+                <ion-button color="tertiary" (click)="retraitTransact(codeEnter,beneficiaire)">Confirmer</ion-button>
       </span>
     </span>   
+    </span>
+    <span *ngIf="reussie=='echec'">
+        <div class="form-group">
+            <div *ngIf="error" class="alert alert-danger">{{error.message}}</div>
+            </div>
+            <form #f=ngForm [formGroup]="transactionData" (ngSubmit)="envoiTransact(transactionData.value)" *ngIf="reussie==null">
+                <ion-item-divider color="tertiary">
+                    Infos Expéditeur
+                  </ion-item-divider>
+              <ion-item>
+                <ion-label>Nom Complet</ion-label>
+                <ion-input type="text" formControlName="nomComplet" name="nomComplet"></ion-input>
+              </ion-item>
+              <div id="error" *ngFor="let error of errorMessage.nomComplet">
+                  <div *ngIf="transactionData.get('nomComplet').hasError(error.type) &&
+                  (transactionData.get('nomComplet').dirty || transactionData.get('nomComplet').touched)">
+                      {{error.message}}
+                  </div>
+              </div>
+              <ion-item>
+                <ion-label>Adresse</ion-label>
+                <ion-input formControlName="adresse" name="adresse"></ion-input>
+              </ion-item>
+              <div id="error" *ngFor="let error of errorMessage.adresse">
+                  <div *ngIf="transactionData.get('adresse').hasError(error.type) &&
+                  (transactionData.get('adresse').dirty || transactionData.get('adresse').touched)">
+                      {{error.message}}
+                  </div>
+              </div>
+              <ion-item>
+                <ion-label>Telephone</ion-label>
+                <ion-input formControlName="telephone" name="telephone"></ion-input>
+              </ion-item>
+              <div id="error" *ngFor="let error of errorMessage.telephone">
+                  <div *ngIf="transactionData.get('telephone').hasError(error.type) &&
+                  (transactionData.get('telephone').dirty || transactionData.get('telephone').touched)">
+                      {{error.message}}
+                  </div>
+              </div>
+              <ion-item>
+                  <ion-label>Type Piéce</ion-label>
+                  <ion-select formControlName="typePiece" name="typePiece"> 
+                    <ion-select-option value="cni">Carte d'identité</ion-select-option>
+                    <ion-select-option value="passport">Passport</ion-select-option>
+                  </ion-select>
+                </ion-item>
+              <ion-item>
+                <ion-label>Numéro piéce</ion-label>
+                <ion-input formControlName="numeroPiece" name="numeroPiece"></ion-input>
+              </ion-item>
+              <div id="error" *ngFor="let error of errorMessage.numeroPiece">
+                  <div *ngIf="transactionData.get('numeroPiece').hasError(error.type) &&
+                  (transactionData.get('numeroPiece').dirty || transactionData.get('numeroPiece').touched)">
+                      {{error.message}}
+                  </div>
+              </div>
+              <ion-item-divider color="tertiary">
+                  Infos Bénéficiaire
+                </ion-item-divider>
+              <ion-item>
+                <ion-label>Nom Complet</ion-label>
+                <ion-input type="text" formControlName="nomCompletR" name="nomCompletR"></ion-input>
+              </ion-item>
+              <div id="error" *ngFor="let error of errorMessage.nomCompletR">
+                  <div *ngIf="transactionData.get('nomCompletR').hasError(error.type) &&
+                  (transactionData.get('nomCompletR').dirty || transactionData.get('nomCompletR').touched)">
+                      {{error.message}}
+                  </div>
+              </div>
+              <ion-item>
+                <ion-label>Adresse</ion-label>
+                <ion-input formControlName="adresseR" name="adresseR"></ion-input>
+              </ion-item>
+              <div id="error" *ngFor="let error of errorMessage.adresseR">
+                  <div *ngIf="transactionData.get('adresseR').hasError(error.type) &&
+                  (transactionData.get('adresseR').dirty || transactionData.get('adresseR').touched)">
+                      {{error.message}}
+                  </div>
+              </div>
+              <ion-item>
+                <ion-label>Telephone</ion-label>
+                <ion-input formControlName="telephoneR" name="telephoneR"></ion-input>
+              </ion-item>
+              <div id="error" *ngFor="let error of errorMessage.telephoneR">
+                  <div *ngIf="transactionData.get('telephoneR').hasError(error.type) &&
+                  (transactionData.get('telephoneR').dirty || transactionData.get('telephoneR').touched)">
+                      {{error.message}}
+                  </div>
+              </div>
+              <ion-item>
+                  <ion-label>Montant</ion-label>
+                  <ion-input (keyup)="infotarif(f.value.montant)" 
+                  formControlName="montant" name="montant" type="number"></ion-input>
+                </ion-item>
+                <div id="error" *ngFor="let error of errorMessage.montant">
+                    <div *ngIf="transactionData.get('montant').hasError(error.type) &&
+                    (transactionData.get('montant').dirty || transactionData.get('montant').touched)">
+                        {{error.message}}
+                    </div>
+                </div>
+                <ion-item *ngFor="let f of frais" >
+                  <ion-label>Frais</ion-label>
+                  <ion-input type="number" value="{{f.valeur}}" class="form-control" ></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Sans Frais</ion-label>
+                    <ion-toggle checked="false" color="tertiary" formControlName="frais" name="frais"></ion-toggle>
+                </ion-item>
+              <ion-button type="submit" expand="block" color="tertiary" [disabled]="!transactionData.valid">Envoyer</ion-button>
+            </form>
     </span>
   <div class="py-5 mt-5" *ngIf="reussie=='oui'">
       <ion-card>
@@ -118,5 +293,5 @@
             <ion-label>Caissier:  {{transaction.user.username}}</ion-label>
       </ion-card>
       <button mat-raised-button color="accent" (click)="imprimerRecu()">Imprimer</button>
-    </div> -->
+    </div>
 </ion-content>  

@@ -8,6 +8,7 @@ import 'rxjs/add/observable/throw'; */
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService{
@@ -42,7 +43,7 @@ ngOnInit(){
     let nbConnex;
     //headers.append('content-type', 'application/x-www-form-urlencoded');
 
-    return this.http.post('http://127.0.0.1:8000/api/login', {'username':username,'password':password});
+    return this.http.post('http://127.0.0.1:8000/api/login', {'username':username,'password':password}).pipe(catchError(this.handelError));;
   }
   parseJWT(){
     const JWThelper = new JwtHelperService();
